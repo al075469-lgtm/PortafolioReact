@@ -1,4 +1,4 @@
-// Edita estos datos con los tuyos antes de publicar.
+
 export const profile = {
   name: "Daniel Fco Beytia Chi",
   short: "Daniel Beytia",
