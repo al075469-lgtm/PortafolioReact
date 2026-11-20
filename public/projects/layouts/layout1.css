@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+header {
+    background-color: lightblue;
+    padding: 30px;
+}
+
+nav {
+    background-color: midnightblue;
+    color: white;
+    padding: 15px;
+}
+
+.hero {
+    background-color: lightsteelblue;
+    padding: 80px 20px;
+}
+
+.miniatura {
+    min-height: 200px;
+    color: white;
+    padding: 20px;
+}
+
+.rojo {
+    background-color: red;
+    flex: 1;
+    flex-basis: 300px;
+}
+
+.verde {
+    background-color: forestgreen;
+    flex: 1;
+    flex-basis: 300px;
+}
+
+.morado {
+    background-color: purple;
+    flex: 2;
+    flex-basis: 300px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    background-color: pink;
+    padding: 20px;
+}
+
+/* Pantallas de 1000px o más: tarjetas en fila */
+@media screen and (min-width: 1000px) {
+    .container {
+        flex-direction: row;
+    }
+}
+
+/* Al imprimir */
+@media print {
+    .rojo, .verde, .morado {
+        background-color: white;
+        color: black;
+    }
+}

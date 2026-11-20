@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Persona Escuela</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 2rem; line-height: 2; }
+        label { color: #b00020; font-weight: 600; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <form action="https://fi.jcaguilar.dev/v1/escuela/persona" method="post">
+        <h1>Registro de Persona (Escuela)</h1>
+        Id_persona:
+        <input name="id_persona" type="number" min="0" readonly><br>
+        <label for="nombre">Nombre:</label>
+        <input id="nombre" name="nombre" type="text" maxlength="64" required><br>
+        <label for="apellido">Apellido:</label>
+        <input id="apellido" name="apellido" type="text" maxlength="64" required><br>
+        Sexo:
+        <input name="sexo" id="sexo-h" type="radio" value="h" required>
+        <label for="sexo-h">Hombre</label>
+        <input name="sexo" id="sexo-m" type="radio" value="m">
+        <label for="sexo-m">Mujer</label>
+        <input name="sexo" id="sexo-o" type="radio" value="o">
+        <label for="sexo-o">Otro</label>
+        <br>
+        <label for="fh_nac">Fecha de nacimiento:</label>
+        <input id="fh_nac" name="fh_nac" type="date" required><br>
+        <label for="id_rol">Rol:</label>
+        <select id="id_rol" name="id_rol" required>
+            <option value="1">Alumno</option>
+            <option value="2">Profesor</option>
+            <option value="3">Administrativo</option>
+            <option value="4">Otro</option>
+        </select>
+        <br>
+        <input type="submit" value="Enviar datos">
+        <input type="reset" value="Limpiar Formulario">
+    </form>
+</body>
+</html>

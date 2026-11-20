@@ -1,0 +1,249 @@
+<!-- Elaborado por Daniel Fco Beytia Chi 75469 -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        img {
+            background-color: lightgreen;
+            border: 2px solid black;
+        }
+
+        .etapa {
+            display: inline-block;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .oculto {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="row my-5">
+            <div class="col-12">
+                <h1>Pokédex</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="inp-search" placeholder="Nombre del pokémon">
+                <button id="btn-buscar">Buscar</button>
+            </div>
+        </div>
+
+        <p id="mensaje" class="mt-3"></p>
+
+        <div id="resultado" class="oculto">
+
+            <table class="table table-striped table-hover mt-3">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Nombre</th>
+                        <th>Sprite</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="poke-id"></td>
+                        <td id="poke-nombre"></td>
+                        <td><img id="poke-sprite"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Descripción del Pokémon</h3>
+            <p id="poke-descripcion"></p>
+
+            <h3>Cadena evolutiva</h3>
+            <div id="poke-evolucion"></div>
+
+            <h3>Megaevoluciones</h3>
+            <div id="poke-mega"></div>
+
+        </div>
+    </div>
+
+    <script>
+        // Elaborado por Daniel Fco Beytia Chi 75469
+
+        const POKEAPI_URL = 'https://pokeapi.co/api/v2/pokemon/'
+        const SPRITES_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+
+        let input = document.querySelector('#inp-search')
+
+        document.querySelector('#btn-buscar').addEventListener('click', buscar)
+
+        // Buscar con ENTER
+        input.addEventListener('keydown', function (evt) {
+            if (evt.key == 'Enter') {
+                buscar()
+            }
+        })
+
+        // Poner la primera letra en mayuscula
+        function capitalizar(texto) {
+            return texto.charAt(0).toUpperCase() + texto.slice(1)
+        }
+
+        // Sacar el id de una url (ej. .../pokemon-species/4/ -> 4)
+        function obtenerId(url) {
+            let partes = url.split('/')
+            return partes[partes.length - 2]
+        }
+
+        // Buscar pokemon
+        function buscar() {
+
+            let nombre = input.value.toLowerCase().trim()
+            let mensaje = document.querySelector('#mensaje')
+            let resultado = document.querySelector('#resultado')
+
+            if (nombre == '') {
+                mensaje.innerHTML = 'Escribe un nombre'
+                return
+            }
+
+            mensaje.innerHTML = 'Buscando...'
+            resultado.classList.add('oculto')
+
+            // 1. Pedir el pokemon (id, nombre y sprite)
+            fetch(POKEAPI_URL + nombre)
+
+            .then(respuesta => {
+                return respuesta.json()
+            })
+
+            .then(datos => {
+
+                document.querySelector('#poke-id').innerHTML = datos.id
+                document.querySelector('#poke-nombre').innerHTML = capitalizar(datos.name)
+                document.querySelector('#poke-sprite').src = datos.sprites.front_default
+
+                document.querySelector('#poke-descripcion').innerHTML = 'Cargando...'
+                document.querySelector('#poke-evolucion').innerHTML = 'Cargando...'
+                document.querySelector('#poke-mega').innerHTML = 'Cargando...'
+
+                resultado.classList.remove('oculto')
+                mensaje.innerHTML = ''
+
+                // 2. Pedir la especie (descripcion y cadena evolutiva)
+                return fetch(datos.species.url)
+            })
+
+            .then(respuesta => {
+                return respuesta.json()
+            })
+
+            .then(especie => {
+
+                // Buscar la descripcion en español
+                let descripcion = 'No hay descripción en español'
+
+                for (let i = 0; i < especie.flavor_text_entries.length; i++) {
+                    let entrada = especie.flavor_text_entries[i]
+
+                    if (entrada.language.name == 'es') {
+                        descripcion = entrada.flavor_text
+                    }
+                }
+
+                // Quitar los saltos de linea
+                descripcion = descripcion.replace(/\n/g, ' ').replace(/\f/g, ' ')
+                document.querySelector('#poke-descripcion').innerHTML = descripcion
+
+                // 3. Pedir la cadena evolutiva
+                return fetch(especie.evolution_chain.url)
+            })
+
+            .then(respuesta => {
+                return respuesta.json()
+            })
+
+            .then(cadena => {
+
+                let lineas = ''
+                let todas = []
+
+                // Funcion que recorre la cadena (se llama a si misma)
+                function recorrer(nodo, camino) {
+
+                    // Sprite y nombre de este pokemon
+                    let id = obtenerId(nodo.species.url)
+
+                    camino = camino + '<span class="etapa">'
+                    camino = camino + '<img src="' + SPRITES_URL + id + '.png"><br>'
+                    camino = camino + capitalizar(nodo.species.name) + '</span>'
+
+                    todas.push(nodo.species)
+
+                    if (nodo.evolves_to.length == 0) {
+                        lineas = lineas + '<p>' + camino + '</p>'
+                    } else {
+                        for (let i = 0; i < nodo.evolves_to.length; i++) {
+                            recorrer(nodo.evolves_to[i], camino + ' → ')
+                        }
+                    }
+                }
+
+                recorrer(cadena.chain, '')
+
+                document.querySelector('#poke-evolucion').innerHTML = lineas
+
+                // 4. Pedir la especie de cada pokemon de la cadena (para las megas)
+                let solicitudes = []
+
+                for (let i = 0; i < todas.length; i++) {
+                    solicitudes.push(
+                        fetch(todas[i].url).then(respuesta => respuesta.json())
+                    )
+                }
+
+                // Esperar a que lleguen todas
+                return Promise.all(solicitudes)
+            })
+
+            .then(especies => {
+
+                let megas = ''
+
+                for (let i = 0; i < especies.length; i++) {
+                    let variedades = especies[i].varieties
+
+                    for (let j = 0; j < variedades.length; j++) {
+                        let forma = variedades[j].pokemon
+
+                        if (forma.name.indexOf('-mega') != -1) {
+                            megas = megas + '<span class="etapa">'
+                            megas = megas + '<img src="' + SPRITES_URL + obtenerId(forma.url) + '.png"><br>'
+                            megas = megas + capitalizar(forma.name) + '</span>'
+                        }
+                    }
+                }
+
+                if (megas == '') {
+                    megas = 'No tiene megaevolución'
+                }
+
+                document.querySelector('#poke-mega').innerHTML = megas
+            })
+
+            .catch(error => {
+                console.log(error)
+                resultado.classList.add('oculto')
+                mensaje.innerHTML = 'Pokémon no encontrado'
+            })
+        }
+        </script>
+</body>
+</html>

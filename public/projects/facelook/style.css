@@ -1,0 +1,329 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #f2f2f2;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: #490dee;
+    border-bottom: 2px solid #490dee;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    color: #ffffff;
+}
+
+.logo, .logo a {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.menu-usuario {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.menu-usuario a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.menu-usuario a:hover {
+    text-decoration: underline;
+}
+
+.contenedor {
+    display: flex;
+    flex-direction: row;
+    max-width: 900px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 0 15px;
+    gap: 15px;
+}
+
+.principal {
+    flex: 1 1 65%;
+    min-width: 0;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.publicacion {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    word-break: break-word;
+}
+
+.cabecera-pub {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.autor {
+    font-weight: bold;
+    font-size: 15px;
+    color: #222222;
+}
+
+.fecha {
+    font-size: 12px;
+    color: #777777;
+}
+
+.foto-pub {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.btn-like {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.conteo-likes {
+    font-size: 13px;
+    font-weight: bold;
+    color: #444444;
+}
+
+.texto-pub {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.desplegable-comentarios summary {
+    cursor: pointer;
+    color: #0055cc;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.lista-comentarios {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.comentario {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.acciones-comentario {
+    margin-top: 5px;
+    font-size: 11px;
+    color: #666;
+}
+
+.btn-comentario {
+    background: none;
+    border: none;
+    color: #0055cc;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-comentario:hover {
+    text-decoration: underline;
+}
+
+.encabezado-perfil {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.foto-perfil {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border: 1px solid #888888;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.datos-perfil {
+    flex: 1;
+    min-width: 0;
+}
+
+.datos-perfil h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.num-seguidores {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 12px;
+}
+
+.biografia h3 {
+    font-size: 14px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+}
+
+.biografia p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #444444;
+}
+
+.barra-lateral {
+    flex: 0 0 180px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    padding: 10px;
+    height: fit-content;
+}
+
+.titulo-lateral {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+}
+
+.usuario-lista {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    word-break: break-word;
+}
+
+.enlace-perfil {
+    color: #333333;
+    text-decoration: none;
+}
+
+.enlace-perfil:hover {
+    text-decoration: underline;
+}
+
+.avatar-mini {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #777777;
+    background-color: #e0e0e0;
+    flex-shrink: 0;
+}
+
+.avatar-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #777777;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+footer {
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    color: #555555;
+    border-top: 1px solid #cccccc;
+    background-color: #ffffff;
+    margin-top: auto;
+}
+
+@media (max-width: 600px) {
+    .contenedor {
+        padding: 0 8px;
+        gap: 10px;
+        margin: 10px auto;
+    }
+
+    .principal {
+        padding: 10px;
+    }
+
+    .barra-lateral {
+        flex: 0 0 130px;
+        padding: 8px;
+    }
+
+    .usuario-lista {
+        font-size: 11px;
+        gap: 5px;
+    }
+
+    .avatar-mini, .avatar-img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .encabezado-perfil {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .foto-perfil {
+        width: 70px;
+        height: 70px;
+    }
+
+    .foto-pub {
+        max-height: 250px;
+    }
+}
