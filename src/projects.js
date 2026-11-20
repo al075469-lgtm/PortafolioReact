@@ -4,8 +4,8 @@ export const profile = {
   short: "Daniel Beytia",
   matricula: "75469",
   career: "Ingeniería en Tecnología de Software",
-  github: "https://github.com/TU-USUARIO",
-  email: "tu-correo@ejemplo.com",
+  github: "https://github.com/al075469-lgtm",
+  email: "al075469@uacam.mx",
 };
 
 const base = import.meta.env.BASE_URL;
